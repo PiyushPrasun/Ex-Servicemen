@@ -1,0 +1,22 @@
+[global]
+# Streamlit Global Configuration
+dataFrameSerialization = "arrow"
+
+[server]
+# Server Configuration
+headless = false
+port = 8503
+enableCORS = false
+enableXsrfProtection = false
+
+[browser]
+# Browser Configuration
+gatherUsageStats = false
+showErrorDetails = true
+
+[theme]
+# Theme Configuration
+primaryColor = "#4CAF50"
+backgroundColor = "#000000"
+secondaryBackgroundColor = "#1E1E1E"
+textColor = "#FFFFFF"

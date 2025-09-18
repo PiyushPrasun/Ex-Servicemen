@@ -1,0 +1,89 @@
+# ==================================================================
+# 🎖️ Military Career Platform - Unified Dependencies
+# ==================================================================
+# Complete dependency list for the unified military career platform
+# Combines requirements for both Resume Builder and Job Finder modules
+# Total packages: 20+ core dependencies + optional enhancements
+# 
+# Installation: pip install -r requirements.txt
+# Platform: Cross-platform (Windows, macOS, Linux)
+# Python: 3.8+ required
+# ==================================================================
+
+# =================== WEB FRAMEWORK & UI ===================
+streamlit                           # Primary web framework for unified platform
+streamlit-aggrid                    # Enhanced data grids for job display
+
+# =================== AI & MACHINE LEARNING ===================
+mistralai                           # AI enhancement for resume content
+spacy                               # Natural language processing engine
+google-generativeai                 # Google AI integration (optional)
+
+# =================== DOCUMENT PROCESSING ===================
+PyMuPDF                             # PDF processing and text extraction
+xhtml2pdf                           # HTML to PDF conversion
+pytesseract                         # OCR for scanned military documents
+Pillow                              # Image processing for OCR enhancement
+
+# =================== DATA PROCESSING & ANALYTICS ===================
+pandas                              # Data manipulation and analysis
+numpy                               # Numerical computing foundation
+openpyxl                            # Excel file support for data export
+
+# =================== WEB SCRAPING & DATA COLLECTION ===================
+requests                            # HTTP library for job data fetching
+beautifulsoup4                      # HTML parsing for job board scraping
+lxml                                # Fast XML/HTML parser
+selenium                            # Browser automation for dynamic content
+urllib3                             # Advanced HTTP client
+
+# =================== TEXT PROCESSING & VALIDATION ===================
+email-validator                     # Email address validation for resumes
+phonenumbers                        # Phone number formatting and validation
+fuzzywuzzy                          # Fuzzy string matching for job titles
+python-levenshtein                  # Fast fuzzy string comparison
+regex                               # Advanced regular expressions
+
+# =================== SYSTEM & UTILITIES ===================
+python-dotenv                       # Environment variable management
+typing-extensions                   # Enhanced type hints for Python <3.11
+python-dateutil                     # Date/time parsing and manipulation
+pathlib2                            # Enhanced path handling (Python <3.4 compat)
+
+# =================== ADDITIONAL ENHANCEMENTS ===================
+plotly                              # Interactive charts for job market analytics
+altair                              # Declarative statistical visualization
+streamlit-option-menu               # Enhanced navigation menus
+streamlit-authenticator             # User authentication (optional)
+
+# =================== MILITARY-SPECIFIC ENHANCEMENTS ===================
+# These packages enhance military document processing and career transition
+
+# Resume Enhancement
+python-docx                         # Microsoft Word document processing
+python-pptx                         # PowerPoint processing for presentations
+reportlab                           # Advanced PDF generation
+
+# =================== DEVELOPMENT & TESTING (Optional) ===================
+# Uncomment these for development work:
+# pytest>=7.4.0                       # Testing framework
+# black>=23.9.1                       # Code formatting
+# flake8>=6.1.0                       # Code linting
+
+# =================== DEPLOYMENT & PERFORMANCE (Optional) ===================
+# Uncomment these for production deployment:
+# gunicorn>=21.2.0                    # WSGI server for production deployment
+# psutil>=5.9.6                       # System monitoring and performance
+
+# ==================================================================
+# INSTALLATION NOTES:
+# ==================================================================
+# 1. Core platform will work with first 15 packages
+# 2. Optional packages enhance functionality but aren't required
+# 3. spaCy English model must be downloaded separately:
+#    python -m spacy download en_core_web_sm
+# 4. Some packages may require system dependencies:
+#    - tesseract-ocr (for OCR functionality)
+#    - poppler-utils (for PDF processing)
+# 5. For production deployment, consider containerization
+# ==================================================================

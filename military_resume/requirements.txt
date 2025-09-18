@@ -1,0 +1,38 @@
+# Web Framework
+streamlit
+
+# AI/ML Libraries
+mistralai
+spacy
+
+# PDF Processing
+PyMuPDF
+xhtml2pdf
+
+# OCR Libraries
+pytesseract
+Pillow
+
+# Data Processing
+pandas
+numpy
+
+# Text Processing and Validation
+email-validator
+phonenumbers
+fuzzywuzzy
+python-levenshtein
+
+# System and Utilities
+python-dotenv
+typing-extensions
+
+# HTTP and Requests
+requests
+
+# Date and Time
+python-dateutil
+
+# Additional Dependencies
+regex
+openpyxl

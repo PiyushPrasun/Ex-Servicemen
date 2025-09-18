@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ex-Servicemen Job Scraper</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .controls {
+            padding: 30px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-right: 10px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+            color: #667eea;
+            font-size: 18px;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .results {
+            padding: 30px;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
+        .job-card {
+            background: white;
+            border: 1px solid #e9ecef;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .job-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .job-title {
+            font-size: 1.4em;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+
+        .job-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .meta-item {
+            background: #f8f9fa;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 0.9em;
+            color: #495057;
+        }
+
+        .meta-label {
+            font-weight: 600;
+            color: #667eea;
+        }
+
+        .job-description {
+            color: #6c757d;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .job-links {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .link-btn {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 0.9em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .link-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 10px rgba(40, 167, 69, 0.3);
+        }
+
+        .json-output {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            max-height: 400px;
+            overflow-y: auto;
+            margin-top: 20px;
+        }
+
+        .stats {
+            background: linear-gradient(135deg, #17a2b8, #138496);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 1.2em;
+            font-weight: 600;
+        }
+
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid #dc3545;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: 15px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .job-meta {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .job-links {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎖️ Ex-Servicemen Job Scraper</h1>
+            <p>Find Civilian Jobs for Retired Army Personnel</p>
+        </div>
+
+        <div class="controls">
+            <div class="input-group">
+                <label for="websiteUrl">Website URL to Scrape:</label>
+                <input type="url" id="websiteUrl" value="https://20govt.com/jobs-for/ex-servicemen-vacancy/" placeholder="Enter website URL...">
+            </div>
+            
+            <div class="input-group">
+                <label for="maxJobs">Maximum Jobs to Scrape:</label>
+                <input type="number" id="maxJobs" value="50" min="1" max="100" placeholder="Enter number of jobs...">
+            </div>
+
+            <button class="btn" onclick="scrapeJobs()">🔍 Start Scraping</button>
+            <button class="btn" onclick="exportJSON()" id="exportBtn" style="display: none;">📥 Export JSON</button>
+            <button class="btn" onclick="clearResults()">🗑️ Clear Results</button>
+        </div>
+
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            Scraping job postings... Please wait...
+        </div>
+
+        <div id="results" class="results"></div>
+    </div>
+
+    <script>
+        let scrapedJobs = [];
+
+        async function scrapeJobs() {
+            const url = document.getElementById('websiteUrl').value;
+            const maxJobs = parseInt(document.getElementById('maxJobs').value) || 50;
+            
+            if (!url) {
+                showError('Please enter a valid website URL');
+                return;
+            }
+
+            showLoading(true);
+            clearResults();
+
+            try {
+                // Simulate job scraping with mock data based on the website structure
+                const jobs = await simulateJobScraping(url, maxJobs);
+                displayJobs(jobs);
+                scrapedJobs = jobs;
+                
+                if (jobs.length > 0) {
+                    document.getElementById('exportBtn').style.display = 'inline-block';
+                }
+                
+                showStats(jobs.length);
+            } catch (error) {
+                showError('Error scraping jobs: ' + error.message);
+            }
+
+            showLoading(false);
+        }
+
+        async function simulateJobScraping(url, maxJobs) {
+            // Simulate network delay
+            await new Promise(resolve => setTimeout(resolve, 2000));
+            
+            // Mock job data based on the actual website structure
+            const mockJobs = [
+                {
+                    title: "BEL Driver Recruitment 2025",
+                    postDate: "2025-07-15",
+                    lastDate: "2025-08-06",
+                    description: "BEL Driver Recruitment 2025 for Government Sector Vacancy in Karnataka. Bharat Electronics Limited is hiring drivers with ex-servicemen quota.",
+                    jobUrl: "https://20govt.com/jobs/bel-driver/113691",
+                    applicationUrl: "https://bel-india.in/careers"
+                },
+                {
+                    title: "AIIMS Rajkot Consultant Recruitment 2025",
+                    postDate: "2025-07-01",
+                    lastDate: "2025-07-24",
+                    description: "AIIMS Rajkot Consultant Recruitment 2025 for Government Sector Vacancy in Gujarat. Medical consultant positions available for ex-servicemen.",
+                    jobUrl: "https://20govt.com/jobs/aiims-rajkot-consultant/113690",
+                    applicationUrl: "https://aiimsrajkot.edu.in/recruitment"
+                },
+                {
+                    title: "Indian Navy Recruitment 2025",
+                    postDate: "2025-07-20",
+                    lastDate: "2025-08-15",
+                    description: "Indian Navy Recruitment 2025: Current Jobs Vacancy in Indian Navy. Various positions available for ex-servicemen with attractive benefits.",
+                    jobUrl: "https://20govt.com/jobs/indian-navy-recruitment/113689",
+                    applicationUrl: "https://joinindiannavy.gov.in"
+                },
+                {
+                    title: "CEWACOR Consultant Recruitment 2025",
+                    postDate: "2025-05-15",
+                    lastDate: "2025-06-05",
+                    description: "CEWACOR Consultant Recruitment 2025 for Government Sector Vacancy in NCR. Central Water and Power Research Station consultant positions.",
+                    jobUrl: "https://20govt.com/jobs/cewacor-consultant/113688",
+                    applicationUrl: "https://cewacor.in/careers"
+                },
+                {
+                    title: "IOCL Security Chief Recruitment 2025",
+                    postDate: "2025-07-10",
+                    lastDate: "2025-08-20",
+                    description: "IOCL Recruitment 2025 for Security Chief: Indian Oil Corporation Limited is recruiting security personnel with preference for ex-servicemen.",
+                    jobUrl: "https://20govt.com/jobs/iocl-security-chief/113687",
+                    applicationUrl: "https://iocl.com/careers"
+                },
+                {
+                    title: "CSIR-CBRI Security Officer Recruitment 2025",
+                    postDate: "2025-04-20",
+                    lastDate: "2025-05-18",
+                    description: "CSIR-CBRI Security Officer Recruitment 2025 for Government Sector Vacancy in Uttarakhand. Central Building Research Institute security positions.",
+                    jobUrl: "https://20govt.com/jobs/csir-cbri-security/113686",
+                    applicationUrl: "https://cbri.res.in/recruitment"
+                },
+                {
+                    title: "CSL Instructor Recruitment 2025",
+                    postDate: "2025-04-15",
+                    lastDate: "2025-05-09",
+                    description: "CSL Instructor Recruitment 2025 in Kochi, Kerala. Cochin Shipyard Limited instructor positions with ex-servicemen quota.",
+                    jobUrl: "https://20govt.com/jobs/csl-instructor/113685",
+                    applicationUrl: "https://cochinshipyard.com/careers"
+                },
+                {
+                    title: "WCD Sirsa Support Person Recruitment 2025",
+                    postDate: "2025-04-10",
+                    lastDate: "2025-05-01",
+                    description: "WCD Sirsa Recruitment 2025 for Support Person Post for 08 Vacancy in Haryana Anganwadi Department. Women and Child Development department positions.",
+                    jobUrl: "https://20govt.com/jobs/wcd-sirsa/113684",
+                    applicationUrl: "https://hreyahs.gov.in/recruitment"
+                },
+                {
+                    title: "APS Chandimandir Teaching Staff Recruitment 2025",
+                    postDate: "2025-04-05",
+                    lastDate: "2025-05-05",
+                    description: "APS Chandimandir Recruitment 2025 for Teaching, Non-Teaching Staff Jobs in Haryana Government. Army Public School positions for ex-servicemen.",
+                    jobUrl: "https://20govt.com/jobs/aps-chandimandir/113683",
+                    applicationUrl: "https://apsctm.in/recruitment"
+                },
+                {
+                    title: "ECHS Medical Officer Recruitment 2025",
+                    postDate: "2025-04-01",
+                    lastDate: "2025-04-25",
+                    description: "ECHS Recruitment 2025 for Medical Officer, Dental Hygienist Jobs in Karnataka. Ex-servicemen Contributory Health Scheme medical positions.",
+                    jobUrl: "https://20govt.com/jobs/echs-medical/113682",
+                    applicationUrl: "https://echs.gov.in/recruitment"
+                },
+                {
+                    title: "SECR Trade Apprentice Recruitment 2025",
+                    postDate: "2025-07-25",
+                    lastDate: "2025-08-25",
+                    description: "SECR Recruitment 2025 for Trade Apprentice: South East Central Railway apprentice positions with reservation for ex-servicemen.",
+                    jobUrl: "https://20govt.com/jobs/secr-apprentice/113681",
+                    applicationUrl: "https://secr.indianrailways.gov.in"
+                },
+                {
+                    title: "BEL Assistant Security Officer Recruitment 2025",
+                    postDate: "2025-07-12",
+                    lastDate: "2025-08-12",
+                    description: "BEL Recruitment 2025 for Assistant Security Officer: Bharat Electronics Limited security officer positions for ex-servicemen personnel.",
+                    jobUrl: "https://20govt.com/jobs/bel-security/113680",
+                    applicationUrl: "https://bel-india.in/careers"
+                },
+                {
+                    title: "DRDO Scientist Recruitment 2025",
+                    postDate: "2025-07-18",
+                    lastDate: "2025-08-18",
+                    description: "DRDO Scientist Recruitment 2025: Defence Research and Development Organisation scientist positions with ex-servicemen quota available.",
+                    jobUrl: "https://20govt.com/jobs/drdo-scientist/113679",
+                    applicationUrl: "https://drdo.gov.in/recruitment"
+                },
+                {
+                    title: "Coast Guard Assistant Commandant Recruitment 2025",
+                    postDate: "2025-07-22",
+                    lastDate: "2025-08-22",
+                    description: "Indian Coast Guard Assistant Commandant Recruitment 2025. Maritime security positions ideal for ex-servicemen with naval background.",
+                    jobUrl: "https://20govt.com/jobs/coast-guard-ac/113678",
+                    applicationUrl: "https://joinindiancoastguard.gov.in"
+                },
+                {
+                    title: "CAPF Head Constable Recruitment 2025",
+                    postDate: "2025-07-08",
+                    lastDate: "2025-08-08",
+                    description: "Central Armed Police Forces Head Constable Recruitment 2025. Para-military positions with significant ex-servicemen quota.",
+                    jobUrl: "https://20govt.com/jobs/capf-hc/113677",
+                    applicationUrl: "https://crpf.gov.in/recruitment"
+                }
+            ];
+
+            // Return only the requested number of jobs
+            return mockJobs.slice(0, Math.min(maxJobs, mockJobs.length));
+        }
+
+        function displayJobs(jobs) {
+            const resultsDiv = document.getElementById('results');
+            
+            if (jobs.length === 0) {
+                resultsDiv.innerHTML = '<div class="error">No jobs found. Please try a different URL or check your internet connection.</div>';
+                return;
+            }
+
+            let html = '';
+            jobs.forEach((job, index) => {
+                html += `
+                    <div class="job-card">
+                        <div class="job-title">${job.title}</div>
+                        <div class="job-meta">
+                            <div class="meta-item">
+                                <span class="meta-label">Posted:</span> ${formatDate(job.postDate)}
+                            </div>
+                            <div class="meta-item">
+                                <span class="meta-label">Last Date:</span> ${formatDate(job.lastDate)}
+                            </div>
+                            <div class="meta-item">
+                                <span class="meta-label">Status:</span> 
+                                ${isExpired(job.lastDate) ? '<span style="color: #dc3545;">Expired</span>' : '<span style="color: #28a745;">Active</span>'}
+                            </div>
+                        </div>
+                        <div class="job-description">${job.description}</div>
+                        <div class="job-links">
+                            <a href="${job.jobUrl}" target="_blank" class="link-btn">📄 View Job</a>
+                            <a href="${job.applicationUrl}" target="_blank" class="link-btn">📝 Apply Online</a>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            resultsDiv.innerHTML = html;
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-IN', { 
+                day: '2-digit', 
+                month: '2-digit', 
+                year: 'numeric' 
+            });
+        }
+
+        function isExpired(lastDate) {
+            return new Date(lastDate) < new Date();
+        }
+
+        function showLoading(show) {
+            document.getElementById('loading').style.display = show ? 'block' : 'none';
+        }
+
+        function showError(message) {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = `<div class="error">${message}</div>`;
+        }
+
+        function showStats(jobCount) {
+            const resultsDiv = document.getElementById('results');
+            const activeJobs = scrapedJobs.filter(job => !isExpired(job.lastDate)).length;
+            const expiredJobs = jobCount - activeJobs;
+            
+            const statsHtml = `
+                <div class="stats">
+                    📊 Total Jobs Found: ${jobCount} | 🟢 Active: ${activeJobs} | 🔴 Expired: ${expiredJobs}
+                </div>
+            `;
+            resultsDiv.insertAdjacentHTML('afterbegin', statsHtml);
+        }
+
+        function exportJSON() {
+            if (scrapedJobs.length === 0) {
+                showError('No jobs to export. Please scrape jobs first.');
+                return;
+            }
+
+            const jsonData = JSON.stringify(scrapedJobs, null, 2);
+            
+            // Create and trigger download
+            const blob = new Blob([jsonData], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `ex_servicemen_jobs_${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+
+            // Also display JSON in results
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML += `
+                <div class="json-output">
+                    <h3>📋 Exported JSON Data:</h3>
+                    ${jsonData}
+                </div>
+            `;
+        }
+
+        function clearResults() {
+            document.getElementById('results').innerHTML = '';
+            document.getElementById('exportBtn').style.display = 'none';
+            scrapedJobs = [];
+        }
+
+        // Initialize with demo data on page load
+        window.onload = function() {
+            // Auto-scrape on page load for demo
+            setTimeout(() => {
+                scrapeJobs();
+            }, 1000);
+        };
+    </script>
+</body>
+</html>
