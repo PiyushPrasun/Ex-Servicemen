@@ -1,442 +1,332 @@
-# 🎖️ Military Career Platform - Unified Solution
+# Military Career Platform
 
-## 🚀 Complete Military-to-Civilian Career Transformation
+A unified career-support platform designed to help ex-servicemen and military veterans explore civilian employment opportunities and prepare resumes that communicate their service experience in civilian-friendly language.
 
-**The ultimate platform for military veterans and ex-servicemen featuring:**
+The project brings together two main workflows:
 
-### 📄 AI-Powered Resume Builder
+- **AI-assisted resume building** — document extraction, military-to-civilian wording support, resume formatting, and export.
+- **Job discovery** — collection and presentation of job opportunities from configured sources, with links to the original postings.
 
-- 🤖 **Military-to-Civilian Translation** - Transform military experience into civilian language
-- 📱 **OCR Document Processing** - Extract data from scanned military documents
-- 🎯 **ATS Optimization** - Ensure resumes pass applicant tracking systems
-- 💎 **Professional Formatting** - Multiple export formats (PDF, HTML, JSON)
-- 🧠 **AI Enhancement** - Mistral AI integration for content improvement
+> **Project status:** This README describes the capabilities and setup paths documented in the project. Exact feature availability depends on the code, installed dependencies, configured API keys, and the job sources currently supported.
 
-### 💼 Specialized Job Finder
+## Contents
 
-- 🎖️ **Military-Specific Opportunities** - Jobs tailored for veterans
-- 🔍 **Real-time Scraping** - Latest openings from multiple job boards
-- 📊 **Comprehensive Dashboard** - Analytics and job market insights
-- 🔗 **Direct Apply Links** - Seamless application process
-- 📈 **Market Trends** - Track hiring patterns for veterans
+- [Features](#features)
+- [Project structure](#project-structure)
+- [Requirements](#requirements)
+- [Quick start](#quick-start)
+- [Manual installation](#manual-installation)
+- [Configuration](#configuration)
+- [Running the applications](#running-the-applications)
+- [Troubleshooting](#troubleshooting)
+- [Privacy and security](#privacy-and-security)
+- [Limitations](#limitations)
+- [Contributing](#contributing)
 
-## ⚡ One-Command Installation & Launch
+## Features
 
-### 🪟 Windows (Recommended)
+### Resume builder
 
-```batch
+The resume workflow is intended to help veterans present military experience in a format that is easier for civilian recruiters to understand.
+
+- **Document extraction:** OCR and PDF-processing support for scanned or digital documents, depending on the input and installed tools.
+- **Military-to-civilian translation:** helps reframe service experience and transferable skills using civilian terminology.
+- **AI-assisted content improvement:** the project documentation lists Mistral AI integration for resume-content enhancement.
+- **Resume formatting:** professional, ATS-conscious layouts and structured resume content.
+- **Export options:** the project documentation lists PDF, HTML, JSON, and text output; verify which formats are enabled in your current version.
+
+Always review extracted details and AI-generated wording before using a resume. OCR and language models can omit, misread, or invent details. Do not include classified, restricted, or otherwise sensitive military information.
+
+### Job finder
+
+The job-finder workflow collects job listings from configured sources and presents them for exploration.
+
+- **Job-source collection:** scraping tools for the job boards configured in the project.
+- **Job discovery:** explore opportunities relevant to veterans and people transitioning to civilian employment.
+- **Job details and application links:** inspect available listing information and follow the source link to the original posting.
+- **Filtering and market insights:** use the filters and dashboard analytics implemented in the current version.
+
+Job availability, listing freshness, supported fields, and source coverage depend on the individual source and its current website structure. Scraped listings should be verified on the original job page before applying.
+
+## Project structure
+
+The repository layout documented by the project is approximately:
+
+```text
+military_career_platform/
+├── main_app.py                 # Unified Streamlit entry point
+├── setup.py                    # Setup and launch helper
+├── EASY_SETUP.bat               # Windows setup helper
+├── requirements.txt             # Top-level Python dependencies
+├── verify_installation.py       # Installation verification helper
+├── military_resume/
+│   ├── resume.py                # Resume-builder application
+│   ├── requirements.txt         # Resume-specific dependencies
+│   └── resume/                  # Sample resume documents, if included
+└── milatary/
+    ├── streamlit_app.py         # Job-finder dashboard
+    ├── requirements.txt         # Job-finder dependencies
+    ├── jobScrap/                # Scraping utilities
+    ├── military_1/              # Job-source data or module
+    └── military_2/              # Additional job-source data or module
+```
+
+The tree is based on the supplied project documentation. Confirm names and paths against the actual checkout; in particular, the directory is documented as `milatary/` (rather than `military/`).
+
+## Requirements
+
+The original project documentation specifies:
+
+- Python 3.8 or newer
+- Windows, macOS, or Linux
+- Internet access for package installation and any network-dependent features
+- Additional disk space for Python packages, NLP models, and document processing tools
+
+Some OCR workflows may require the Tesseract executable in addition to Python packages. The spaCy English model may also need to be installed separately.
+
+## Quick start
+
+### Windows
+
+From the repository root, run:
+
+```bat
 EASY_SETUP.bat
 ```
 
-### 🐍 Cross-Platform (Python)
+Review the script before running it, especially if you are using a managed or work computer. Run it from a terminal so you can see setup errors.
+
+### Cross-platform
+
+The repository documents this setup helper:
 
 ```bash
 python setup.py
 ```
 
-**That's it!** The automated setup will:
+Inspect `setup.py` first to understand what it installs, configures, or launches. If it does not work in your environment, use the manual steps below.
 
-1. ✅ Verify Python 3.8+ compatibility
-2. ✅ Install all 15+ dependencies automatically
-3. ✅ Download spaCy NLP models (~12MB)
-4. ✅ Configure environment variables
-5. ✅ Launch the unified platform
-6. ✅ Open in your web browser automatically
+## Manual installation
 
-## 📋 System Requirements
+It is recommended to use a virtual environment so the project's dependencies do not interfere with other Python applications.
 
-- **Python 3.8+** (Required - [Download here](https://python.org))
-- **Windows 10/11, macOS 10.14+, or Linux**
-- **5GB free disk space** (for dependencies and models)
-- **Stable internet connection** (for initial setup and AI features)
-- **15-20 minutes** for first-time complete setup
+### 1. Create and activate a virtual environment
 
-## 🎯 Detailed Features
+**Windows (Command Prompt):**
 
-### 📄 Resume Builder Capabilities
-
-- 🤖 **AI-Enhanced Data Extraction** - Intelligent parsing of military documents
-- 📱 **OCR Support** - Process scanned PDFs and images
-- 🎯 **Military-to-Civilian Translation** - Convert MOS, ranks, and experience
-- 📊 **Professional Templates** - ATS-friendly formatting
-- � **Multi-format Export** - PDF, HTML, JSON, and text formats
-- 🔍 **Keyword Optimization** - Industry-specific terminology
-- 📈 **Performance Tracking** - Resume effectiveness analytics
-
-### 💼 Job Finder Features
-
-- 🎖️ **Veteran-Specific Sources** - Military job boards and veteran programs
-- 🔍 **Real-time Scraping** - Live data from 10+ job platforms
-- 🎯 **Smart Filtering** - By experience level, location, and industry
-- 📊 **Market Intelligence** - Salary trends and demand analytics
-- 🔗 **One-click Applications** - Direct links to job postings
-- 📈 **Career Insights** - Industry transition recommendations
-- � **Job Alerts** - Notifications for matching opportunities
-
-## 🛠️ Manual Setup (If Needed)
-
-If the automatic setup doesn't work:
-
-1. **Install dependencies:**
-
-   ```bash
-   pip install -r requirements.txt
-   python -m spacy download en_core_web_sm
-   ```
-
-2. **Launch the platform:**
-
-   ```bash
-   streamlit run main_app.py
-   ```
-
-3. **Open in browser:**
-   - Go to: `http://localhost:8501`
-
-## 📁 Project Architecture
-
-```
-military_career_platform/
-├── 🎯 main_app.py              # Unified platform entry point
-├── 🚀 setup.py                 # Automated setup & launch script
-├── 🪟 EASY_SETUP.bat          # Windows one-click installer
-├── ⚙️ requirements.txt         # Complete dependency list (15+ packages)
-├── 📖 README.md               # This comprehensive guide
-├── 🔧 verify_installation.py   # System verification tool
-├── 📄 military_resume/         # AI Resume Builder Module
-│   ├── resume.py              # Main resume builder application
-│   ├── requirements.txt       # Resume-specific dependencies
-│   └── resume/               # Sample resume PDFs (1-10.pdf)
-├── 💼 milatary/               # Job Finder Module
-│   ├── streamlit_app.py       # Job scraper dashboard
-│   ├── requirements.txt       # Job finder dependencies
-│   ├── jobScrap/             # Custom scraping tools
-│   ├── military_1/           # Job data storage
-│   └── military_2/           # Additional job sources
-└── 🌐 .env                    # Environment configuration (auto-created)
+```bat
+python -m venv .venv
+.venv\Scripts\activate
 ```
 
-## 🔧 Advanced Configuration & Customization
+**Windows (PowerShell):**
 
-### 🔑 API Keys Setup (Optional but Recommended)
-
-Create/edit `.env` file for enhanced features:
-
-```env
-# AI Enhancement (Recommended)
-MISTRAL_API_KEY=your_mistral_key_here
-
-# Additional AI Models (Optional)
-GOOGLE_API_KEY=your_google_key_here
-OPENAI_API_KEY=your_openai_key_here
-
-# Job Search Enhancement (Optional)
-INDEED_API_KEY=your_indeed_key_here
-LINKEDIN_API_KEY=your_linkedin_key_here
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
 ```
 
-### 🌐 Custom Server Configuration
+**macOS or Linux:**
 
 ```bash
-# Run on different port
-streamlit run main_app.py --server.port 8080
-
-# Run on specific IP (network access)
-streamlit run main_app.py --server.address 0.0.0.0
-
-# Run in headless mode (server deployment)
-streamlit run main_app.py --server.headless true
+python3 -m venv .venv
+source .venv/bin/activate
 ```
 
-### 🎨 Theme Customization
-
-The platform features a professional dark theme optimized for military users:
-
-- **Background**: Pure black (#000000) for reduced eye strain
-- **Accents**: Military blue (#1f77b4) for buttons and highlights
-- **Text**: High contrast white for maximum readability
-- **Fonts**: Large sizing (2rem-6rem) optimized for laptop viewing
-
-## 🆘 Comprehensive Troubleshooting Guide
-
-### 🐍 Python Installation Issues
-
-**"Python not found" or "python is not recognized"**
+### 2. Install dependencies
 
 ```bash
-# Download Python 3.8+ from python.org
-# During installation, check "Add Python to PATH"
-# Verify installation:
-python --version
-pip --version
-```
-
-**"Permission denied" or "Access denied"**
-
-```bash
-# Windows: Run Command Prompt as Administrator
-# Mac/Linux: Use sudo for system-wide installation
-sudo python setup.py
-
-# Alternative: Create virtual environment
-python -m venv military_platform_env
-# Windows:
-military_platform_env\Scripts\activate
-# Mac/Linux:
-source military_platform_env/bin/activate
-```
-
-### 📦 Dependency Installation Problems
-
-**"Package installation failed" or "No module named..."**
-
-```bash
-# Upgrade pip first
 python -m pip install --upgrade pip
-
-# Install with verbose output to see errors
-pip install -r requirements.txt -v
-
-# For corporate networks/proxies
-pip install -r requirements.txt --trusted-host pypi.org --trusted-host pypi.python.org
-
-# Force reinstall all packages
-pip install -r requirements.txt --force-reinstall
+python -m pip install -r requirements.txt
 ```
 
-**"spaCy model download failed"**
+If the resume builder or job finder maintains separate dependency files, install the relevant module's dependencies as needed:
 
 ```bash
-# Manual installation methods:
+python -m pip install -r military_resume/requirements.txt
+python -m pip install -r milatary/requirements.txt
+```
+
+Only run the commands for files that exist in your checkout. If a package fails to install, keep the full error output for diagnosis rather than immediately forcing a reinstall.
+
+### 3. Install the spaCy model
+
+If the application uses spaCy's small English model:
+
+```bash
 python -m spacy download en_core_web_sm
-# OR
-pip install https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.7.1/en_core_web_sm-3.7.1-py3-none-any.whl
 ```
 
-### 🌐 Network & Firewall Issues
+### 4. Install OCR software if required
 
-**"SSL Certificate error" or "Connection timeout"**
+On Ubuntu or Debian-based Linux systems:
 
 ```bash
-# Corporate firewall bypass
-pip install -r requirements.txt --trusted-host pypi.org --trusted-host files.pythonhosted.org
-
-# Use different index
-pip install -r requirements.txt -i https://pypi.douban.com/simple/
-```
-
-### 🖥️ Platform Launch Issues
-
-**"Streamlit not found" or "Port already in use"**
-
-```bash
-# Verify streamlit installation
-streamlit --version
-
-# Use different port
-streamlit run main_app.py --server.port 8504
-
-# Kill existing processes (Windows)
-taskkill /f /im python.exe
-# Kill existing processes (Mac/Linux)
-pkill -f streamlit
-```
-
-### 🔧 File System Issues
-
-**"File not found" or "Import errors"**
-
-```bash
-# Ensure you're in the correct directory
-cd path/to/military_career_platform
-python setup.py
-
-# Check file permissions (Mac/Linux)
-chmod +x setup.py
-chmod -R 755 .
-```
-
-### 💻 System-Specific Solutions
-
-#### Windows
-
-```cmd
-# If PowerShell execution policy blocks scripts
-Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
-
-# Alternative Python installation check
-py --version
-py -m pip install -r requirements.txt
-```
-
-#### macOS
-
-```bash
-# Install Xcode command line tools if needed
-xcode-select --install
-
-# Use Homebrew Python if system Python fails
-brew install python
-/usr/local/bin/python3 setup.py
-```
-
-#### Linux/Ubuntu
-
-```bash
-# Install system dependencies
 sudo apt update
-sudo apt install python3-pip python3-venv python3-dev
-
-# Install tesseract for OCR (if needed)
 sudo apt install tesseract-ocr
 ```
 
-### 🚨 Emergency Manual Setup
+For Windows and macOS, install Tesseract using a trusted distribution for your operating system and ensure its executable is available on your `PATH` if the application invokes it directly.
 
-If automated setup completely fails:
+### 5. Launch the application
+
+From the repository root:
 
 ```bash
-# Step 1: Core dependencies only
-pip install streamlit pandas requests
-
-# Step 2: Launch minimal version
 streamlit run main_app.py
+```
 
-# Step 3: Install additional packages as needed
-pip install mistralai PyMuPDF spacy
+Streamlit normally prints a local URL in the terminal, commonly `http://localhost:8501`. Open the URL shown by your terminal.
+
+## Configuration
+
+Some features may require API credentials. The original project documentation lists a `.env` file and the following variables:
+
+```dotenv
+# Add only keys that are used by your current code
+MISTRAL_API_KEY=your_mistral_api_key
+GOOGLE_API_KEY=your_google_api_key
+OPENAI_API_KEY=your_openai_api_key
+INDEED_API_KEY=your_indeed_api_key
+LINKEDIN_API_KEY=your_linkedin_api_key
+```
+
+Not every variable is necessarily consumed by the current implementation. Check the code and dependency configuration to determine which integrations are active. Do not put real API keys in source control, screenshots, logs, or issue reports.
+
+If the project loads values from `.env`, ensure the relevant environment-loading package is installed and that the application loads the file before accessing the variables.
+
+Add secrets and local data files to `.gitignore`. A minimal example is:
+
+```gitignore
+.env
+.venv/
+__pycache__/
+*.py[cod]
+.streamlit/secrets.toml
+```
+
+Adapt the ignore rules to the actual project. Do not ignore dependency lock files or other reproducibility files if the project uses them intentionally.
+
+## Running the applications
+
+### Change the port
+
+```bash
+streamlit run main_app.py --server.port 8080
+```
+
+### Run in headless mode
+
+```bash
+streamlit run main_app.py --server.headless true
+```
+
+### Bind to a specific address
+
+```bash
+streamlit run main_app.py --server.address 0.0.0.0
+```
+
+Binding to `0.0.0.0` can expose the application to other devices on the network. Do this only when you understand the network and access-control implications. Do not expose a development instance directly to the public internet without appropriate authentication, authorization, and deployment hardening.
+
+## Troubleshooting
+
+### Python or pip is not found
+
+Check the installed versions:
+
+```bash
+python --version
+python -m pip --version
+```
+
+On Windows, the Python launcher may be available as `py`:
+
+```bat
+py --version
+py -m pip --version
+```
+
+Reopen the terminal after installing Python and confirm that Python was added to `PATH`.
+
+### A module cannot be imported
+
+Activate the project's virtual environment, then install the applicable requirements file:
+
+```bash
+python -m pip install -r requirements.txt
+```
+
+Check the traceback to identify the missing module and the Python interpreter running the application.
+
+### spaCy model is missing
+
+```bash
 python -m spacy download en_core_web_sm
 ```
 
-## 🎖️ Military User Guide & Best Practices
+Confirm that the installed spaCy version is compatible with the model version.
 
-### 📄 Resume Builder - Maximizing Your Military Experience
+### OCR does not work
 
-#### 🎯 Document Preparation Tips:
+- Confirm that Tesseract is installed if the application depends on it.
+- Check whether the executable is available on `PATH`.
+- Test with a readable, non-sensitive sample document.
+- Check the terminal output for file-path, PDF-rendering, or OCR errors.
 
-- **DD-214 (Discharge Papers)**: Primary source for service verification
-- **ERB/ORB (Evaluation Records)**: Detailed skill and achievement history
-- **Award Certificates**: Combat awards, service medals, commendations
-- **Training Certificates**: Technical schools, leadership courses, certifications
-- **Performance Reviews**: NCOERs, OERs, fitness reports
+### The Streamlit port is already in use
 
-#### 🤖 AI Enhancement Best Practices:
-
-1. **Upload clear, high-resolution documents** for better OCR processing
-2. **Specify target civilian position** for tailored AI translation
-3. **Review AI suggestions carefully** - military context is unique
-4. **Customize for each application** - different roles need different emphasis
-5. **Use civilian terminology** while maintaining technical accuracy
-
-#### 📊 ATS Optimization Guidelines:
-
-- Include relevant civilian keywords from job descriptions
-- Quantify achievements with numbers and percentages
-- Use standard section headers (Experience, Education, Skills)
-- Avoid military jargon that civilians won't understand
-- Export in both PDF and text formats for different systems
-
-### 💼 Job Finder - Strategic Career Transition
-
-#### 🔍 Effective Search Strategies:
-
-1. **Start broad, then narrow** - explore adjacent industries first
-2. **Focus on transferable skills** - leadership, logistics, technical expertise
-3. **Target veteran-friendly companies** - many have specific programs
-4. **Consider federal positions** - veteran preference applies
-5. **Network within veteran communities** - leverage military connections
-
-#### 📈 Market Intelligence Usage:
-
-- **Salary Research**: Compare military pay to civilian equivalents
-- **Industry Trends**: Identify growing sectors needing your skills
-- **Location Analysis**: Factor in cost of living and military presence
-- **Timing**: Some industries hire more veterans at specific times
-
-#### 🎯 Application Strategy:
-
-- Apply within 24-48 hours of job posting
-- Customize cover letter for each position
-- Follow up professionally after 1-2 weeks
-- Prepare for questions about military-to-civilian transition
-- Have references ready (both military and civilian if available)
-
-### 🚀 Platform Usage Tips
-
-#### ⚡ Performance Optimization:
-
-- **Close unnecessary browser tabs** for better performance
-- **Use Chrome or Firefox** for best compatibility
-- **Clear browser cache** if experiencing issues
-- **Restart platform** if memory usage gets high
-
-#### 💾 Data Management:
-
-- **Export resumes regularly** in multiple formats
-- **Save job searches** with different criteria sets
-- **Bookmark promising opportunities** for follow-up
-- **Track application status** outside the platform
-
-#### 🔄 Regular Updates:
-
-- **Run job searches weekly** for latest opportunities
-- **Update resume** as you gain new skills or certifications
-- **Refresh AI enhancements** periodically for improved content
-- **Check platform updates** for new features
-
-## 📞 Support & Community
-
-### 🆘 Getting Help:
-
-1. **Check error messages** in terminal for specific issues
-2. **Verify file integrity** - ensure all files extracted properly
-3. **Review system requirements** - Python 3.8+ is critical
-4. **Try manual installation** if automated setup fails
-5. **Document errors** with screenshots for better support
-
-### 🤝 Military Veteran Resources:
-
-- **VA Work-Study Program**: Potential funding for career development
-- **VR&E Benefits**: Vocational rehabilitation and education
-- **SCORE Mentoring**: Free business mentorship for entrepreneurs
-- **Hiring Our Heroes**: Corporate partnerships for veteran employment
-- **Team Rubicon**: Volunteer opportunities to build civilian networks
-
-## 📄 License & Credits
-
-### 🎖️ Military Career Platform
-
-**Developed specifically for military veterans and active-duty personnel transitioning to civilian careers.**
-
-### 🙏 Acknowledgments:
-
-- **Military Community**: For feedback and testing
-- **Open Source Libraries**: Streamlit, spaCy, PyMuPDF, and others
-- **AI Partners**: Mistral AI for resume enhancement capabilities
-- **Veteran Organizations**: For industry insights and best practices
-
-### 📋 Terms of Use:
-
-- Platform is free for personal use by military personnel
-- No warranty implied - use at your own discretion
-- Data privacy: All processing happens locally on your machine
-- Commercial use requires separate licensing agreement
-
----
-
-## 🎯 Ready to Transform Your Military Career?
-
-**Your next civilian opportunity is just one command away:**
-
-### 🚀 Quick Start:
+Try another port:
 
 ```bash
-python setup.py
+streamlit run main_app.py --server.port 8504
 ```
 
-**The platform will handle everything else automatically!**
+### Job data is missing or outdated
+
+- Check network connectivity and the source website.
+- Inspect scraper logs and the source-specific parsing code.
+- Confirm that the website has not changed its markup or access requirements.
+- Verify whether the source permits automated access and follow its terms and applicable policies.
+- Open the original posting to confirm the role, deadline, and application link.
+
+Avoid bypassing access controls or using undocumented access methods that violate a source's terms.
+
+## Privacy and security
+
+Resume documents can contain personal, employment, and military-service information. Before processing or sharing a document:
+
+- Use sample or redacted documents when testing.
+- Do not upload classified, restricted, or sensitive operational information.
+- Review third-party AI provider data-handling terms before sending document text to an external API.
+- Keep API keys and other credentials out of Git.
+- Limit access to uploaded documents, extracted text, logs, and generated resumes.
+- Confirm where files and extracted data are stored and how they are deleted.
+
+Do not assume that all processing is local: AI integrations, web scraping, and other network features may send requests to external services.
+
+## Limitations
+
+- OCR quality depends on scan quality, layout, language, and document condition.
+- AI-generated resume wording and extracted entities require human verification.
+- ATS-friendly formatting does not guarantee that an applicant tracking system will accept or rank a resume.
+- Scrapers can break when source websites change, and job data can become stale.
+- Availability of API integrations and export formats depends on the installed code and configuration.
+
+## Contributing
+
+Contributions that improve reliability, reproducibility, accessibility, and data quality are welcome.
+
+1. Create a branch for your change.
+2. Keep changes focused and document any new configuration.
+3. Add or update tests where practical.
+4. Never commit credentials, personal documents, or real user data.
+5. Include steps to reproduce a bug and the expected behavior when opening an issue or pull request.
+
+## Acknowledgements
+
+The project documentation references open-source tools including Streamlit, spaCy, and PyMuPDF, along with Mistral AI for resume-content enhancement. See the dependency files and each upstream project's license for the exact components and applicable terms.
 
 ---
 
-_🎖️ Serving those who served - transforming military excellence into civilian success._
-#   E x - S e r v i c e m e n  
- 
+**Built to support the transition from military service to civilian careers.**
